@@ -55,12 +55,13 @@ for address in total_score:
         try:
             verifymessage_result = kmdrpc.verifymessage_rpc(ORCLCHAIN, address, signature, value)
             if verifymessage_result:
-                name_total[kvsearch_result['value'][88:]] = total_score[address]
+                name = kvsearch_result['value'][88:] + ':' + address
+                name_total[name] = total_score[address]
             else:
-                cheater = 'CHEAT:' + kvsearch_result['value'][88:]
+                cheater = 'CHEAT:' + address
                 name_total[cheater] = total_score[address]
         except:
-            troll = 'TROLL:' + kvsearch_result['value']
+            troll = 'TROLL:' + address
             name_total[troll] = total_score[address]
     else:
         name_total[address] = total_score[address]
