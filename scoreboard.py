@@ -17,9 +17,7 @@ total_score = {}
 for chain in CHAINS:
     getinfo_result = kmdrpc.getinfo_rpc(chain)
     block_count = getinfo_result['blocks']
-    imports_list = []
     score = {}
-    getimports_result = kmdrpc.getimports_rpc(chain, block_count)
 
     for block in range(block_count):
         getimports_result = kmdrpc.getimports_rpc(chain, block)
