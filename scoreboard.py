@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 import kmdrpc
 import pprint
+import sys
 
 CHAINS = ['CFEKY','CFEKX']
 ORCLCHAIN = 'CFEKY'
+
+try:
+    CHAINBOOL = sys.argv[1]
+except:
+    CHAINBOOL = '0'
 
 chain_score = {}
 total_score = {}
@@ -33,6 +39,9 @@ for chain in chain_score:
             total_score[address] += chain_score[chain][address]
         else:
             total_score[address] = chain_score[chain][address]
+
+if CHAINBOOL == '1':
+    pprint.pprint(chain_score)
 
 name_total = {}
 
