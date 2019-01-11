@@ -48,7 +48,31 @@ def post_rpc(url, payload, auth=None):
         raise Exception("Couldn't connect to " + url + ": ", e)
 
 
+# Return current -pubkey=
+def getpubkey_rpc(chain):
+    getinfo_result = getinfo_rpc(chain)
+    try:
+        return(getinfo_result['pubkey'])
+    except:
+        print('-pubkey= must be set at startup or via setpubkey command')
+        sys.exit(0)
+
+
 # VANILLA RPC
+
+
+def signmessage_rpc(chain, address, message):
+    signmessage_payload = {
+        "jsonrpc": "1.0",
+        "id": "python",
+        "method": "signmessage",
+        "params": [
+            address,
+            message
+        ]
+    }
+    signmessage_result = post_rpc(def_credentials(chain), signmessage_payload)
+    return(signmessage_result)
 
 
 def verifymessage_rpc(chain, address, signature, message):
@@ -77,6 +101,22 @@ def kvsearch_rpc(chain, key):
     }
     kvsearch_result = post_rpc(def_credentials(chain), kvsearch_payload)
     return(kvsearch_result)
+
+
+def kvupdate_rpc(chain, key, value, days, password):
+    # create dynamic oraclessamples payload
+    kvupdate_payload = {
+        "jsonrpc": "1.0",
+        "id": "python",
+        "method": "kvupdate",
+        "params": [
+            key,
+            value,
+            str(days),
+            password]}
+    # make kvupdate rpc call
+    kvupdate_result = post_rpc(def_credentials(chain), kvupdate_payload)
+    return(kvupdate_result)
 
 
 def getinfo_rpc(chain):
