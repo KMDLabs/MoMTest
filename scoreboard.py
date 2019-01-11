@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-import sys
 import kmdrpc
 import pprint
 
 CHAINS = ['CFEKY','CFEKX']
-CHAIN = 'CFEKY'
-#block_count = sys.argv[2]
+ORCLCHAIN = 'CFEKY'
 
 chain_score = {}
 total_score = {}
@@ -39,22 +37,24 @@ for chain in chain_score:
 name_total = {}
 
 for address in total_score:
-    kvsearch_result = kmdrpc.kvsearch_rpc(CHAIN, address)
-
+    kvsearch_result = kmdrpc.kvsearch_rpc(ORCLCHAIN, address)
     # if username is set via KV show it
     if 'value' in kvsearch_result:
         # check if username is signed properly
         signature = kvsearch_result['value'][:88]
         value = kvsearch_result['value'][88:]
-        verifymessage_result = kmdrpc.verifymessage_rpc(CHAIN, address, signature, value)
-        if verifymessage_result:
-            name_total[kvsearch_result['value'][88:]] = total_score[address]
-        else:
-            cheater = 'CHEAT:' + kvsearch_result['value'][88:]
-            name_total[cheater] = total_score[address]
+        try:
+            verifymessage_result = kmdrpc.verifymessage_rpc(ORCLCHAIN, address, signature, value)
+            if verifymessage_result:
+                name_total[kvsearch_result['value'][88:]] = total_score[address]
+            else:
+                cheater = 'CHEAT:' + kvsearch_result['value'][88:]
+                name_total[cheater] = total_score[address]
+        except:
+            troll = 'TROLL:' + kvsearch_result['value']
+            name_total[troll] = total_score[address]
     else:
         name_total[address] = total_score[address]
 
 pprint.pprint(name_total)
 
-#print('wait for oraclessubscribe transactions to confirm before attempting to send message')
