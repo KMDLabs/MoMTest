@@ -128,6 +128,24 @@ def getinfo_rpc(chain):
     return(post_rpc(def_credentials(chain), getinfo_payload))
 
 
+def getbalance_rpc(chain):
+    getbalance_payload = {
+        "jsonrpc": "1.0",
+        "id": "python",
+        "method": "getbalance",
+        "params": []}
+    return(post_rpc(def_credentials(chain), getbalance_payload))
+
+
+def getblockcount_rpc(chain):
+    getblockcount_payload = {
+        "jsonrpc": "1.0",
+        "id": "python",
+        "method": "getblockcount",
+        "params": []}
+    return(post_rpc(def_credentials(chain), getblockcount_payload))
+
+
 def getimports_rpc(chain, block):
     getimports_payload = {
         "jsonrpc": "1.0",
